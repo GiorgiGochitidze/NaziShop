@@ -21,7 +21,7 @@ const ImageUpload = () => {
         setShowImage(true);
         if (image.url) {
             const { name, url } = image;
-            axios.post('http://localhost:5000/api/saveImageUrl', { imageName: name, imageUrl: url })
+            axios.post('https://nazishop.onrender.com/api/saveImageUrl', { imageName: name, imageUrl: url })
                 .then(response => {
                     console.log(response.data);
                 })

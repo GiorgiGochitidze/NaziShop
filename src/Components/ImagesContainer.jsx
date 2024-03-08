@@ -7,7 +7,7 @@ const ImagesContainer = () => {
 
   useEffect(() => {
     // Fetch image URLs from backend when the component mounts
-    axios.get('http://localhost:5000/api/getImageUrls')
+    axios.get('https://nazishop.onrender.com/api/getImageUrls')
       .then(response => {
         setImageUrls(response.data);
       })
