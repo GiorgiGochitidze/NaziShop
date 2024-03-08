@@ -16,17 +16,33 @@ const ImagesContainer = () => {
       });
   }, []);
 
+  const deleteImage = (imageName) => {
+    // Delete image from backend
+    axios.delete(`https://nazishop.onrender.com/api/deleteImage/${imageName}`)
+      .then(response => {
+        console.log(response.data);
+        // Remove the deleted image from the imageUrls state
+        setImageUrls(prevState => prevState.filter(image => Object.keys(image)[0] !== imageName));
+      })
+      .catch(error => {
+        console.error('Error deleting image:', error);
+      });
+  };
+
   return (
     <div className="img-container">
-      {imageUrls.map((image, index) => (
-        <div className="img-card" key={index}>
-          {/* Access the URL using Object.values() */}
-          <img src={Object.values(image)[0]} alt={`Image ${index + 1}`} />
-          <p>description</p>
-
-          <button className='buttons'>ყიდვა</button>
-        </div>
-      ))}
+      {imageUrls.map((image, index) => {
+        const imageName = Object.keys(image)[0];
+        const imageUrl = Object.values(image)[0];
+        return (
+          <div className="img-card" key={index}>
+            <img src={imageUrl} alt={`Image ${index + 1}`} />
+            <p>description</p>
+            <button className='buttons'>ყიდვა</button>
+            <button className='del-button' onClick={() => deleteImage(imageName)}>X</button>
+          </div>
+        );
+      })}
     </div>
   );
 };

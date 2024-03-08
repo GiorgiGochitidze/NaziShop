@@ -1,13 +1,12 @@
-// ImageUpload.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import './CSS/ImgUpload.css'
-import './CSS/ImagesContainer.css'
+import './CSS/ImgUpload.css';
+import './CSS/ImagesContainer.css';
+
+// https://nazishop.onrender.com/
 
 const ImageUpload = () => {
     const [image, setImage] = useState({ name: null, url: null });
-    const [showImage, setShowImage] = useState(false);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -18,7 +17,6 @@ const ImageUpload = () => {
     };
 
     const handleClick = () => {
-        setShowImage(true);
         if (image.url) {
             const { name, url } = image;
             axios.post('https://nazishop.onrender.com/api/saveImageUrl', { imageName: name, imageUrl: url })
@@ -29,7 +27,7 @@ const ImageUpload = () => {
                     console.error('Error saving image URL:', error);
                 });
         }
-    }
+    };
 
     return ( 
         <div className='image-upload-container'>
@@ -37,10 +35,11 @@ const ImageUpload = () => {
             <input type="file" name="file" id="file" onChange={handleFileChange} />
             <label htmlFor="file" className="custom-button">აირჩიეთ ფაილი</label>
 
-            {showImage && <img className='choosen-img' src={image.url} alt={image.name} />}
+            {/* Show the selected image */}
+            {image.url && <img className='choosen-img' src={image.url} alt={image.name} />}
             <button className='buttons' onClick={handleClick}>ატვირთვა</button>
         </div>
      );
-}
+};
  
 export default ImageUpload;

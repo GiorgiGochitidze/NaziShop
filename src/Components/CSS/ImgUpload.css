@@ -45,3 +45,22 @@ input[type="file"] {
     height: 300px;
     box-sizing: border-box;
   }
+
+  @media screen and (max-width: 670px) {
+    .image-upload-container{
+        width: 90%;
+    }
+
+    .custom-button{
+        width: 50%;
+    }
+
+    .buttons{
+        width: 50px;
+    }
+
+    .choosen-img{
+        width: 90%;
+        height: auto;
+    }
+  }
