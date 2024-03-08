@@ -25,7 +25,7 @@ const LogIn = () => {
 
   return (
     <form>
-      <h1>შესვლა</h1>
+      <h3>შესვლა - მხოლოდ საიტის მფლობელისთვის</h3>
       <label htmlFor="username">
         სახელი:
         <input
