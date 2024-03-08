@@ -1,23 +1,16 @@
-import './CSS/Home.css'
+import React from "react";
+import { useParams } from "react-router-dom";
 import ImageUpload from './ImageUpload';
 import ImagesContainer from './ImagesContainer';
-import React, { useState } from 'react';
+import './CSS/Home.css'
 
 const Home = () => {
-
-    const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-
-    // Function to save the image URL
-    const saveImageUrl = (imageUrl) => {
-        setUploadedImageUrl(imageUrl);
-        // Here you can also save the URL to localStorage, database, etc.
-    }
+    const { userName } = useParams();
 
     return ( 
         <main>
-
-            <ImageUpload saveImageUrl={saveImageUrl} />
-
+            {userName && <h1>Welcome, {userName}!</h1>}
+            {userName && <ImageUpload /> }
             <ImagesContainer />
         </main>
      );

@@ -1,18 +1,37 @@
-import './Navbar.css'
-import ring from './assets/ring.png'
+// Navbar.js
+import "./Navbar.css";
+import ring from "./assets/ring.png";
+import { Link, useParams } from "react-router-dom";
 
 const Navbar = () => {
-    return ( 
-        <header>
-            <nav>
-                <div style={{display: 'flex', justifyConten: 'center', alignItems: 'center'}}>
-                <img src={ring} />
-                <p style={{fontSize: '23px'}}>NaziShop</p>
-                </div>
-                <p>შესვლა</p>
-            </nav>
-        </header>
-     );
-}
- 
+  const { userName } = useParams();
+
+  return (
+    <header>
+      <nav>
+        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img src={ring} alt="ring" />
+            <p style={{ fontSize: "23px" }}>NaziShop</p>
+          </div>
+        </Link>
+        {!userName && (
+          <Link
+            to="/LogIn"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <p>შესვლა</p>
+          </Link>
+        )}
+      </nav>
+    </header>
+  );
+};
+
 export default Navbar;
