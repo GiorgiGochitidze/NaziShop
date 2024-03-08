@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 const ImagesContainer = () => {
   const [imageUrls, setImageUrls] = useState([]);
-  const [userName] = useParams()
+  const {userName} = useParams()
 
   useEffect(() => {
     // Fetch image URLs from backend when the component mounts
