@@ -4,6 +4,7 @@ import Home from './Components/Home'
 import Navbar from './Navbar'
 import LogIn from './Components/LogIn'
 import React, { useEffect } from 'react';
+import Footer from './Components/Footer'
 
 
 // https://nazishop.onrender.com/
@@ -22,6 +23,7 @@ function App() {
           <Route path='/LogIn' element={<LogIn />} />
           <Route path='/home/:userName' element={<Home />} />
         </Routes>
+        <Footer />
     </>
   )
 }
