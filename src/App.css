@@ -1,0 +1,22 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'georgian-font', sans-serif;
+}
+
+body{
+ height: 100vh; 
+}
+
+html{
+  overflow-x: hidden;
+}
+
+@font-face {
+  font-family: 'georgian-font'; /* The name you want to use for your custom font */
+  src: url('./Fonts/bpg_extrasquare_mtavruli_2009.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.33vw;
+  font-display: fallback;
+}

@@ -1,0 +1,47 @@
+.image-upload-container{
+    width: 600px;
+    height: auto;
+    box-shadow: inset rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 20px;
+    border-radius: 20px;
+    gap: 50px;
+}
+
+/* ImgUpload.css */
+
+/* Style for the input file button */
+input[type="file"] {
+    /* Hide the default file input button */
+    display: none;
+  }
+  
+  /* Style for the custom button */
+  .custom-button {
+    background-color: #00ff99; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 20PX;
+    transition: 0.2s all ease-in-out;
+  }
+  
+  /* Style for the custom button when hovered */
+  .custom-button:hover {
+    background-color: #23c483; /* Darker green */
+  }
+  
+  .choosen-img{
+    width: 300px;
+    height: 300px;
+    box-sizing: border-box;
+  }
