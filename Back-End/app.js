@@ -1,14 +1,19 @@
 const express = require('express');
+const http = require('http');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const socketIo = require('socket.io');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
+const server = http.createServer(app);
+const io = socketIo(server);
 
 const UPLOADS_FOLDER = './uploads';
 
@@ -39,14 +44,12 @@ app.get('/api/getImageUrls', (req, res) => {
             const urlStructure = JSON.parse(data);
             // Send the parsed JSON object containing image names and URLs
             res.status(200).json(urlStructure);
-            console.log('Image URLs sent successfully to the frontend');
         } catch (parseError) {
             console.error('Error parsing JSON:', parseError);
             res.status(500).send('Error parsing JSON');
         }
     });
 });
-
 
 // Route to save image URL
 app.post('/api/saveImageUrl', upload.single('image'), (req, res) => {
@@ -56,35 +59,13 @@ app.post('/api/saveImageUrl', upload.single('image'), (req, res) => {
         // Generate a URL for the saved image
         const imageUrlPath = `/uploads/${imageUrl}`;
         console.log('Image URL:', imageUrlPath);
-
-        // Read existing image URLs from JSON file
-        fs.readFile('./ImageUrls.json', 'utf8', (err, data) => {
-            if (err) {
-                console.error('Error reading ImageUrls.json:', err);
-                res.status(500).send('Error reading ImageUrls.json');
-                return;
-            }
-
-            let imageUrls = JSON.parse(data) || []; // Parse existing image URLs or initialize as empty array
-            // Add the new image URL to the array
-            imageUrls.push({ [imageUrl]: imageUrlPath });
-
-            // Write the updated JSON back to the file
-            fs.writeFile('./ImageUrls.json', JSON.stringify(imageUrls, null, 2), 'utf8', (err) => {
-                if (err) {
-                    console.error('Error writing ImageUrls.json:', err);
-                    res.status(500).send('Error writing ImageUrls.json');
-                    return;
-                }
-                console.log('Image URL saved successfully');
-                res.status(200).json({ imageUrl: imageUrlPath }); // Send the image URL as response
-            });
-        });
+        res.status(200).json({ imageUrl: imageUrlPath }); // Send the image URL as response
+        // Emit event to all clients to notify about the image upload
+        io.emit('imageUploaded');
     } else {
         res.status(400).send('Image file not provided');
     }
 });
-
 
 // Define a route to delete a specific image by its name
 app.delete('/api/deleteImage/:imageName', (req, res) => {
@@ -145,8 +126,17 @@ app.get('/api/images/:imageName', (req, res) => {
     });
 });
 
+// Socket.io connection
+io.on('connection', (socket) => {
+    console.log('A client connected');
+
+    socket.on('disconnect', () => {
+        console.log('A client disconnected');
+    });
+});
+
 // Server setup
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

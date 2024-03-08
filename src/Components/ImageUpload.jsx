@@ -25,6 +25,8 @@ const ImageUpload = () => {
             })
             .then(response => {
                 console.log(response.data);
+                // Reload the page after image upload
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error saving image:', error);
