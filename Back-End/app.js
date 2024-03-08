@@ -1,19 +1,14 @@
 const express = require('express');
-const http = require('http');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
-const socketIo = require('socket.io');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-
-const server = http.createServer(app);
-const io = socketIo(server);
 
 const UPLOADS_FOLDER = './uploads';
 
@@ -41,9 +36,10 @@ app.get('/api/getImageUrls', (req, res) => {
         }
 
         try {
-            const urlStructure = JSON.parse(data);
-            // Send the parsed JSON object containing image names and URLs
-            res.status(200).json(urlStructure);
+            const imageUrls = JSON.parse(data);
+            // Send the parsed JSON object containing image names, URLs, and descriptions
+            res.status(200).json(imageUrls);
+            console.log('Image URLs sent successfully to the frontend');
         } catch (parseError) {
             console.error('Error parsing JSON:', parseError);
             res.status(500).send('Error parsing JSON');
@@ -54,18 +50,42 @@ app.get('/api/getImageUrls', (req, res) => {
 // Route to save image URL
 app.post('/api/saveImageUrl', upload.single('image'), (req, res) => {
     const imageUrl = req.file.filename; // Get the filename of the uploaded image
+    const description = req.body.description; // Get the image description from the request body
     console.log('Received image filename:', imageUrl);
+    console.log('Received image description:', description);
     if (imageUrl) {
         // Generate a URL for the saved image
         const imageUrlPath = `/uploads/${imageUrl}`;
         console.log('Image URL:', imageUrlPath);
-        res.status(200).json({ imageUrl: imageUrlPath }); // Send the image URL as response
-        // Emit event to all clients to notify about the image upload
-        io.emit('imageUploaded');
+
+        // Read existing image URLs from JSON file
+        fs.readFile('./ImageUrls.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading ImageUrls.json:', err);
+                res.status(500).send('Error reading ImageUrls.json');
+                return;
+            }
+
+            let imageUrls = JSON.parse(data) || []; // Parse existing image URLs or initialize as empty array
+            // Add the new image URL and description to the array
+            imageUrls.push({ [imageUrl]: { imageUrlPath, description } });
+
+            // Write the updated JSON back to the file
+            fs.writeFile('./ImageUrls.json', JSON.stringify(imageUrls, null, 2), 'utf8', (err) => {
+                if (err) {
+                    console.error('Error writing ImageUrls.json:', err);
+                    res.status(500).send('Error writing ImageUrls.json');
+                    return;
+                }
+                console.log('Image URL saved successfully');
+                res.status(200).json({ imageUrl: imageUrlPath }); // Send the image URL as response
+            });
+        });
     } else {
         res.status(400).send('Image file not provided');
     }
 });
+
 
 // Define a route to delete a specific image by its name
 app.delete('/api/deleteImage/:imageName', (req, res) => {
@@ -126,17 +146,8 @@ app.get('/api/images/:imageName', (req, res) => {
     });
 });
 
-// Socket.io connection
-io.on('connection', (socket) => {
-    console.log('A client connected');
-
-    socket.on('disconnect', () => {
-        console.log('A client disconnected');
-    });
-});
-
 // Server setup
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

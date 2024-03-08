@@ -5,6 +5,7 @@ import './CSS/ImagesContainer.css';
 
 const ImageUpload = () => {
     const [image, setImage] = useState(null);
+    const [description, setDescription] = useState('');
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -13,10 +14,15 @@ const ImageUpload = () => {
         }
     };
 
+    const handleDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
+
     const handleClick = () => {
-        if (image) {
+        if (image && description) {
             const formData = new FormData();
             formData.append('image', image);
+            formData.append('description', description); // Append the image description to the form data
 
             axios.post('https://nazishop.onrender.com/api/saveImageUrl', formData, {
                 headers: {
@@ -25,6 +31,7 @@ const ImageUpload = () => {
             })
             .then(response => {
                 console.log(response.data);
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error saving image:', error);
@@ -40,6 +47,8 @@ const ImageUpload = () => {
 
             {/* Show the selected image */}
             {image && <img className='choosen-img' src={URL.createObjectURL(image)} alt={image.name} />}
+
+            <input type="text" placeholder='შეიყვანეთ აღწერა' value={description} onChange={handleDescriptionChange} />
             <button className='buttons' onClick={handleClick}>ატვირთვა</button>
         </div>
      );

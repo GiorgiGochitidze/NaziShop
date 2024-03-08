@@ -35,10 +35,11 @@ const ImagesContainer = () => {
       {imageUrls.map((image, index) => {
         const imageName = Object.keys(image)[0];
         const imageUrl = `https://nazishop.onrender.com/api/images/${imageName}`; // Construct the image URL
+        const description = image[imageName].description; // Get the description from the image object
         return (
           <div className="img-card" key={index}>
             <img src={imageUrl} alt={`Image ${index + 1}`} />
-            <p>description</p>
+            <p>{description}</p> {/* Display the image description */}
             <button className='buttons'>ყიდვა</button>
             <button className='del-button' onClick={() => deleteImage(imageName)}>X</button>
           </div>
