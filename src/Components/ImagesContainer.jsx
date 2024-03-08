@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./CSS/ImagesContainer.css";
+import { useParams } from 'react-router-dom';
 
 const ImagesContainer = () => {
   const [imageUrls, setImageUrls] = useState([]);
+  const [userName] = useParams()
 
   useEffect(() => {
     // Fetch image URLs from backend when the component mounts
@@ -41,7 +43,7 @@ const ImagesContainer = () => {
             <img src={imageUrl} alt={`Image ${index + 1}`} />
             <p>{description}</p> {/* Display the image description */}
             <button className='buttons'>ყიდვა</button>
-            <button className='del-button' onClick={() => deleteImage(imageName)}>X</button>
+            {userName && <button className='del-button' onClick={() => deleteImage(imageName)}>X</button>}
           </div>
         );
       })}
