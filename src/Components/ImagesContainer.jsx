@@ -10,6 +10,7 @@ const ImagesContainer = () => {
     axios.get('https://nazishop.onrender.com/api/getImageUrls')
       .then(response => {
         setImageUrls(response.data);
+        console.log('Successfully fetched image URLs:', response.data); // Add console.log here
       })
       .catch(error => {
         console.error('Error fetching image URLs:', error);
@@ -33,7 +34,7 @@ const ImagesContainer = () => {
     <div className="img-container">
       {imageUrls.map((image, index) => {
         const imageName = Object.keys(image)[0];
-        const imageUrl = Object.values(image)[0];
+        const imageUrl = `https://nazishop.onrender.com/api/images/${imageName}`; // Construct the image URL
         return (
           <div className="img-card" key={index}>
             <img src={imageUrl} alt={`Image ${index + 1}`} />

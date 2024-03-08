@@ -3,29 +3,32 @@ import axios from 'axios';
 import './CSS/ImgUpload.css';
 import './CSS/ImagesContainer.css';
 
-// https://nazishop.onrender.com/
-
 const ImageUpload = () => {
-    const [image, setImage] = useState({ name: null, url: null });
+    const [image, setImage] = useState(null);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const url = URL.createObjectURL(file);
-            setImage({ name: file.name, url });
+            setImage(file);
         }
     };
 
     const handleClick = () => {
-        if (image.url) {
-            const { name, url } = image;
-            axios.post('https://nazishop.onrender.com/api/saveImageUrl', { imageName: name, imageUrl: url })
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error('Error saving image URL:', error);
-                });
+        if (image) {
+            const formData = new FormData();
+            formData.append('image', image);
+
+            axios.post('https://nazishop.onrender.com/api/saveImageUrl', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error('Error saving image:', error);
+            });
         }
     };
 
@@ -36,7 +39,7 @@ const ImageUpload = () => {
             <label htmlFor="file" className="custom-button">აირჩიეთ ფაილი</label>
 
             {/* Show the selected image */}
-            {image.url && <img className='choosen-img' src={image.url} alt={image.name} />}
+            {image && <img className='choosen-img' src={URL.createObjectURL(image)} alt={image.name} />}
             <button className='buttons' onClick={handleClick}>ატვირთვა</button>
         </div>
      );
