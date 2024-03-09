@@ -49,13 +49,13 @@ const ImagesContainer = () => {
   const sendEmail = () => {
     // Prepare form data
     const formData = new FormData();
-    formData.append("to", "giorgigochitidze555@gmail.com"); // Change to your email address
+    formData.append("to", "msaxuradze3@gmail.com"); // Change to your email address
     formData.append("from", "NaziShop"); // Change to your sender email address
     formData.append("subject", `New Purchase - Image: ${selectedImage.imageName}`);
     formData.append("text", `Image Description: ${selectedImage.description}\nAddress: ${address}`);
     formData.append("name", `შემკვეთის სახელი და გვარი: ${namSurNam}`);
     // Submit form data to FormSubmit.co endpoint
-    fetch("https://formsubmit.co/giorgigochitidze555@gmail.com", {
+    fetch("https://formsubmit.co/msaxuradze3@gmail.com", {
       method: "POST",
       body: formData
     })
@@ -106,7 +106,7 @@ const ImagesContainer = () => {
 
       {selectedImage && (
         <div className="buy-container">
-          <form action="https://formsubmit.co/giorgigochitidze555@gmail.com" method="POST" className="buy-card-info">
+          <form action="https://formsubmit.co/msaxuradze3@gmail.com" method="POST" className="buy-card-info">
             <h1>თქვენი პროდუქტი:</h1>
             <button
               onClick={() => setSelectedImage(null)}
