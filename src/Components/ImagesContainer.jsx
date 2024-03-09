@@ -49,7 +49,7 @@ const ImagesContainer = () => {
     // Prepare form data
     const formData = new FormData();
     formData.append("to", "giorgigochitidze555@gmail.com"); // Change to your email address
-    formData.append("from", "gigidumbadze@gmail.com"); // Change to your sender email address
+    formData.append("from", "NaziShop"); // Change to your sender email address
     formData.append("subject", `New Purchase - Image: ${selectedImage.imageName}`);
     formData.append("text", `Image Description: ${selectedImage.description}\nAddress: ${address}`);
   
