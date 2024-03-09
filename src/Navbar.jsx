@@ -29,6 +29,8 @@ const Navbar = () => {
             <p>შესვლა</p>
           </Link>
         )}
+
+        <p>ტელ: 557662774</p>
       </nav>
     </header>
   );

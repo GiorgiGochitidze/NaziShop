@@ -9,6 +9,7 @@ const ImagesContainer = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [address, setAddress] = useState("");
+  const [namSurNam, setNamSurNam] = useState('')
   const { userName } = useParams();
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const ImagesContainer = () => {
     formData.append("from", "NaziShop"); // Change to your sender email address
     formData.append("subject", `New Purchase - Image: ${selectedImage.imageName}`);
     formData.append("text", `Image Description: ${selectedImage.description}\nAddress: ${address}`);
-  
+    formData.append("name", `შემკვეთის სახელი და გვარი: ${namSurNam}`);
     // Submit form data to FormSubmit.co endpoint
     fetch("https://formsubmit.co/giorgigochitidze555@gmail.com", {
       method: "POST",
@@ -128,7 +129,16 @@ const ImagesContainer = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="შეიყვანეთ თქვენი მისამართი"
                 className="address-input"
-                name="message"
+                name="address"
+              />
+
+              <input
+                type="text"
+                value={namSurNam}
+                onChange={(e) => setNamSurNam(e.target.value)}
+                placeholder="შეიყვანეთ თქვენი სახელი და გვარი"
+                className="address-input"
+                name="name"
               />
               <button onClick={sendEmail} className="buttons">
                 გაგზავნა

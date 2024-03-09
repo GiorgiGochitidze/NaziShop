@@ -81,21 +81,29 @@
     width: 100%;
     height: 530px;
     position: fixed;
-    top: 80px;
+    top: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(10px);
+    overflow-y: scroll;
+    padding-block: 20px;
+}
+
+.buy-container::-webkit-scrollbar{
+    background-color: transparent;
 }
 
 .buy-card-info{
-    width: 500px;
+    width: 80%;
     height: auto;
     background-color: white;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     position: relative;
     padding-block: 15px;
+    margin-bottom: 10px;
+    padding-inline: 10px;
 }
 
 .close-btn{
@@ -125,7 +133,7 @@
 .senting-container{
     width: 100%;
     height: auto;
-    margin-top: 20px;
+    margin-top: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -149,5 +157,20 @@
 @media screen and (max-width: 333px) {
     .img-card{
         width: 95%;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .buy-card-img{
+        width: 90%;
+        height: auto;
+    }
+
+    .buy-card-info input{
+        width: 80%;
+    }
+
+    .buttons{
+        width: 80%;
     }
 }
