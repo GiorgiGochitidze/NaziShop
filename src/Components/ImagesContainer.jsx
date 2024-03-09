@@ -14,7 +14,7 @@ const ImagesContainer = () => {
   useEffect(() => {
     // Fetch image URLs from backend when the component mounts
     axios
-      .get("http://localhost:5000/api/getImageUrls")
+      .get("https://nazishop.onrender.com/api/getImageUrls")
       .then((response) => {
         setImageUrls(response.data);
         console.log("Successfully fetched image URLs:", response.data); // Add console.log here
@@ -27,7 +27,7 @@ const ImagesContainer = () => {
   const deleteImage = (imageName) => {
     // Delete image from backend
     axios
-      .delete(`http://localhost:5000/api/deleteImage/${imageName}`)
+      .delete(`https://nazishop.onrender.com/api/deleteImage/${imageName}`)
       .then((response) => {
         console.log(response.data);
         // Remove the deleted image from the imageUrls state
@@ -79,7 +79,7 @@ const ImagesContainer = () => {
     <div className="img-container">
       {imageUrls.map((image, index) => {
         const imageName = Object.keys(image)[0];
-        const imageUrl = `http://localhost:5000/api/images/${imageName}`; // Construct the image URL
+        const imageUrl = `https://nazishop.onrender.com/api/images/${imageName}`; // Construct the image URL
         const description = image[imageName].description; // Get the description from the image object
         return (
           <div className="img-card" key={index}>
@@ -115,12 +115,13 @@ const ImagesContainer = () => {
             </button>
             <img
               className="buy-card-img"
-              src={`http://localhost:5000/api/images/${selectedImage.imageName}`}
+              src={`https://nazishop.onrender.com/api/images/${selectedImage.imageName}`}
               alt={selectedImage.description}
             />
             <p>{selectedImage.description}</p>
             <div className="senting-container">
             <input type="hidden" name="description" value={selectedImage.description} />
+            <input type="hidden" name="imageUrl" value={`https://nazishop.onrender.com/api/images/${selectedImage.imageName}`} />
               <input
                 type="text"
                 value={address}

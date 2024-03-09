@@ -10,7 +10,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+const LOGIN_FILE_PATH = './login.json';
 const UPLOADS_FOLDER = './uploads';
+
+const loginData = JSON.parse(fs.readFileSync(LOGIN_FILE_PATH));
 
 if (!fs.existsSync(UPLOADS_FOLDER)) {
     fs.mkdirSync(UPLOADS_FOLDER);
@@ -24,6 +27,21 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+// Route to handle login requests
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    
+    // Check if the username and password match
+    const user = loginData.find(user => user.username === username && user.password === password);
+  
+    if (user) {
+      res.status(200).json({ message: 'Logged In Successfully', username });
+    } else {
+      res.status(401).json({ message: 'Invalid username or password' });
+    }
+  });
+  
 
 // Define a route to get image URLs
 app.get('/api/getImageUrls', (req, res) => {

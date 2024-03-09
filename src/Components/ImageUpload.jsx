@@ -24,7 +24,7 @@ const ImageUpload = () => {
             formData.append('image', image);
             formData.append('description', description); // Append the image description to the form data
 
-            axios.post('http://localhost:5000/api/saveImageUrl', formData, {
+            axios.post('https://nazishop.onrender.com/api/saveImageUrl', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

@@ -1,31 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './CSS/LogIn.css'
 import './CSS/ImagesContainer.css'
 
 const LogIn = () => {
-  const realpass = 'NazisShop2024_@Shop';
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleCheck = (e) => {
+  const handleCheck = async (e) => {
     e.preventDefault();
 
-    if (userName === 'Nazi_Msaxuradze' && userPassword === realpass) {
-      console.log("Logged In Successfully. Welcome: Nazi_Msaxuradze");
-      navigate(`/home/${userName}`); // Navigate to the home page with username parameter upon successful login
-    } else {
-      console.log("Invalid password or username");
+    try {
+      const response = await fetch('https://nazishop.onrender.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: userName, password: userPassword })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        navigate(`/home/${userName}`); // Navigate to the home page with username parameter upon successful login
+      } else {
+        const errorData = await response.json();
+        console.log(errorData.message);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
     }
 
     setUserName("");
     setUserPassword("");
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  })
 
   return (
     <form className="forms">
