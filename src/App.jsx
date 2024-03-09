@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, []) // Add empty dependency array to ensure useEffect runs only once
+  }) // Add empty dependency array to ensure useEffect runs only once
 
   return (
     <>

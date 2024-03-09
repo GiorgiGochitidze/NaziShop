@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './CSS/LogIn.css'
 import './CSS/ImagesContainer.css'
@@ -23,8 +23,12 @@ const LogIn = () => {
     setUserPassword("");
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
+
   return (
-    <form>
+    <form className="forms">
       <h3>შესვლა - მხოლოდ საიტის მფლობელისთვის</h3>
       <label htmlFor="username">
         სახელი:
